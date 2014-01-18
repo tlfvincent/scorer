@@ -1,0 +1,917 @@
+
+R version 2.15.1 (2012-06-22) -- "Roasted Marshmallows"
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: i386-apple-darwin9.8.0/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "SCORER2"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('SCORER2')
+> 
+> assign(".oldSearch", search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("CreatePssm")
+> ### * CreatePssm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CreatePssm
+> ### Title: Compute profile scoring matrices for training data
+> ### Aliases: CreatePssm
+> 
+> ### ** Examples
+> 
+> # load training data
+> data(training)
+> 
+> # define allowed amino and register characters
+> var <- list(
++     amino = c("A","C","D","E","F","G","H","I","K","L",
++     "M","N","P","Q","R","S","T","V","W","Y","X"),
++     register = letters[1:7])
+> 
+> # create profile scoring matrix
+> pssm <- CreatePssm(training, var)
+Computing PSSM from user-defined training data
+>       
+> 
+> 
+> 
+> cleanEx()
+> nameEx("EstimateProbability")
+> ### * EstimateProbability
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: EstimateProbability
+> ### Title: Estimate oligomeric state score of coiled-coil sequences
+> ### Aliases: EstimateProbability
+> 
+> ### ** Examples
+> 
+> # load pssm data
+> data(pssm)
+> 
+> # define allowed amino and register characters
+> var <- list(
++       amino = c("A","C","D","E","F","G","H","I","K","L",
++       "M","N","P","Q","R","S","T","V","W","Y","X"),
++       register = letters[1:7])
+>       
+> # run SCORER 2.0 on GCN4 wild-type
+> GCN4wt.score <- EstimateProbability("GCN4wt", 
++ 			"MKQLEDKVEELLSKNYHLENEVARLKKLV", 
++ 			"abcdefgabcdefgabcdefgabcdefga", 
++ 			pssm, 
++ 			var, 
++ 			delta=1)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RetrainScorer2")
+> ### * RetrainScorer2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RetrainScorer2
+> ### Title: Retrain the SCORER 2.0 algorithm with user-defined training data
+> ### Aliases: RetrainScorer2
+> 
+> ### ** Examples
+> 
+> # load training data
+> data(training)
+> seq <- training[, 1]
+> reg <- training[, 2]
+> type <- training[, 3]
+> 
+> # retrain SCORER 2.0 to obtain new pssm
+> pssm <- RetrainScorer2(seq, reg, type)
+Computing PSSMs
+Computing PSSM from user-defined training data
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pssm")
+> ### * pssm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pssm
+> ### Title: Profile scoring matrix derived from the original SCORER 2.0
+> ###   training set.
+> ### Aliases: pssm
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 	data(pssm)
+> 	print(pssm)
+, , a
+
+        A C D  E  F G H  I  K   L  M  N P  Q  R  S  T  V W  Y X
+DIMER  31 9 4 16 18 1 8 74 29 136 14 50 1 10 21 11 18 79 0 12 1
+TRIMER  5 0 0  2  5 1 1 40  0  44  5  3 1  4  2  2  3 28 1  2 1
+
+, , b
+
+        A C  D  E  F G H  I  K  L M  N P  Q  R  S  T  V W  Y X
+DIMER  56 5 42 75 10 9 6 11 52 18 7 20 3 40 35 32 24 17 1 15 0
+TRIMER 21 1 14 16  0 4 1  1 10  7 0  7 0 14 12 14  4  5 0  3 0
+
+, , c
+
+        A C  D  E  F  G  H  I  K  L  M  N P  Q  R  S  T  V W  Y X
+DIMER  33 2 29 78 10 12 15 14 44 27 10 19 3 54 40 25 27 20 2 12 2
+TRIMER 21 0 15 18  2  2  4  1 10  7  0  9 0 13  6  9  9  6 0  2 0
+
+, , d
+
+        A  C D  E  F G H  I  K   L  M N P  Q  R  S  T  V W  Y X
+DIMER  38 10 2 13 10 0 3 20 20 277 21 6 0 11 16 21 17 19 7 14 5
+TRIMER 10  0 0  2  2 0 3 25  1  67  5 9 0  6  2  3  3  9 0  1 1
+
+, , e
+
+        A C  D  E  F G H  I  K  L M  N P  Q  R  S  T  V W Y X
+DIMER  31 1 20 90 12 3 6 16 59 42 9 10 0 50 38 18 26 13 4 8 5
+TRIMER  5 0  9 33  0 3 1  2 14  7 3 11 1 14 11 11  5  5 1 1 0
+
+, , f
+
+        A C  D  E F  G  H I  K  L M  N P  Q  R  S  T  V W Y X
+DIMER  48 3 41 77 4 18 11 7 52 29 6 29 1 29 36 26 23 15 1 5 0
+TRIMER 11 0 11 19 0  6  1 1 17  5 0  6 0 14  7 20 11  3 1 1 0
+
+, , g
+
+        A C  D   E F G H  I  K  L  M  N P  Q  R  S  T  V W  Y X
+DIMER  27 3 12 107 4 3 5 15 64 47 10  7 0 53 38 17 16 19 1 11 1
+TRIMER 10 1 12  14 0 3 3  5 21  5  2 11 0  9 18 10  5  3 0  3 0
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scorer-package")
+> ### * scorer-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scorer2-package
+> ### Title: Predict oligomerization state of coiled-coil sequences
+> ### Aliases: scorer2-package
+> 
+> ### ** Examples
+> 
+> # load pssm data
+> data(pssm)
+> 
+> # predict oligomerization of GCN4 wildtype
+> GCN4wt.score <- scorer2("GCN4wt", "MKQLEDKVEELLSKNYHLENEVARLKKLV", 
++ 		"abcdefgabcdefgabcdefgabcdefga", pssm,  delta=1)
+Estimating oligomeric state of coiled-coil sequences
+Analysis complete!
+> 
+> 
+> 
+> cleanEx()
+> nameEx("scorer2")
+> ### * scorer2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: scorer2
+> ### Title: Predict oligomerization state of coiled-coil sequences
+> ### Aliases: scorer2
+> 
+> ### ** Examples
+> 
+> # load pssm data
+> data(pssm)
+> 
+> # predict oligomerization of GCN4 wildtype
+> GCN4wt.score <- scorer2("GCN4wt", "MKQLEDKVEELLSKNYHLENEVARLKKLV", 
++ 		"abcdefgabcdefgabcdefgabcdefga", pssm,  delta=1)
+Estimating oligomeric state of coiled-coil sequences
+Analysis complete!
+> 
+> 
+> 
+> cleanEx()
+> nameEx("training")
+> ### * training
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: training
+> ### Title: Training dataset used to contruct the profile scoring matrix in
+> ###   the SCORER 2.0 algorithm.
+> ### Aliases: training
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 	data(training)
+> 	print(training)
+           pdb
+1     1a93_0_0
+2     1ajy_0_2
+3    1ayx_4_11
+4    1ayx_4_14
+5     1b47_0_0
+6     1b47_0_3
+7     1beo_0_0
+8     1ci6_0_0
+9     1ci6_0_1
+10    1d7m_0_1
+11    1db9_0_2
+12    1deb_0_0
+13    1dh3_0_1
+14    1dip_0_2
+15    1fmh_0_0
+16    1fmh_0_1
+17    1fos_0_0
+18    1fos_0_1
+19    1ft9_0_9
+20    1gd2_0_2
+21   1gg2_1_14
+22   1gg2_1_16
+23    1gn9_0_0
+24    1gn9_0_2
+25   1go4_1_16
+26    1gvn_0_0
+27    1gvn_0_2
+28   1j1d_0_10
+29   1j1d_0_12
+30    1joc_0_0
+31    1lj2_0_3
+32    1lj2_1_5
+33    1lr1_0_2
+34   1m5n_0_17
+35   1m5n_0_19
+36    1mc0_1_4
+37    1n6m_0_0
+38    1nlw_0_1
+39    1no4_0_1
+40    1ojh_0_3
+41    1omi_0_9
+42    1p5h_0_6
+43    1pl5_0_1
+44    1pyi_0_2
+45   1qo0_0_36
+46    1qp9_0_2
+47    1r05_2_3
+48    1r5q_0_3
+49    1t2k_0_7
+50    1tu3_0_7
+51    1u4q_2_3
+52    1u4q_2_5
+53   1u5u_0_12
+54    1uii_0_0
+55    1uix_0_0
+56   1ukl_4_38
+57   1ukl_4_40
+58    1wc8_0_0
+59    1wu9_0_2
+60    1xou_1_1
+61    1xou_1_2
+62    1yhn_0_7
+63    1yke_1_2
+64    2aze_0_0
+65    2aze_0_4
+66    2b2f_0_0
+67    2b2f_0_3
+68    2c2x_0_0
+69    2c2x_0_8
+70    2c9l_0_0
+71    2coh_0_7
+72   2d7c_0_12
+73    2efr_0_0
+74    2ehg_0_0
+75    2ehg_0_2
+76   2ewf_0_12
+77   2ewf_0_14
+78    2f22_0_1
+79    2f22_0_2
+80    2fmy_0_9
+81    2fxm_0_0
+82    2gau_0_4
+83    2gd7_0_1
+84    2gd7_1_2
+85   2gry_0_20
+86    2gzh_0_6
+87    2h3r_0_9
+88    2hg4_0_0
+89   2iw5_1_20
+90    2iw5_1_9
+91   2j7a_0_10
+92   2j7a_0_12
+93    2jk1_0_9
+94    2no2_0_1
+95   2nq2_0_21
+96   2nq2_0_31
+97   2nwb_1_13
+98    2nwb_1_7
+99    2o1k_0_1
+100   2ocy_0_5
+101   2ocy_2_5
+102   2ocy_3_5
+103   2opz_0_3
+104   2oqq_0_1
+105   2oz6_0_2
+106   2p1a_0_0
+107   2p1a_0_7
+108  2pbi_0_21
+109   2pbi_0_7
+110   2pmr_0_0
+111   2pmr_0_2
+112   2q6q_0_1
+113   2q8v_0_3
+114   2qm4_0_4
+115   2uv9_1_6
+116   2vko_0_5
+117   2w6a_0_1
+118   2zdb_0_0
+119   3bas_0_1
+120  3bbp_0_12
+121  3bre_0_14
+122   3brt_1_3
+123   3coq_0_7
+124   3dnx_0_2
+125   3dv8_0_9
+126   3e1r_0_0
+127   3e5u_0_7
+128  3e97_0_11
+129   3e98_0_5
+130  3etu_2_10
+131   3etu_2_7
+132  3f29_0_18
+133  3f29_0_20
+134 1aa0_11_11
+135   1bb1_3_0
+136   1buu_3_6
+137   1ca9_3_6
+138   1coi_3_2
+139   1flk_3_6
+140   1htn_3_6
+141   1kfn_3_2
+142   1l4a_4_0
+143  1mg1_3_33
+144   1mof_3_2
+145   1ox3_3_2
+146   1r13_3_6
+147   1slq_3_1
+148   1wt6_3_1
+149   1zvb_3_1
+150   2akf_3_2
+151  2b9b_3_32
+152   2ba2_3_3
+153  2gtl_3_72
+154  2gtl_3_75
+155  2gtl_3_77
+156  2gum_2_11
+157   2jjl_3_2
+158   2oyi_3_2
+159   2oyi_3_9
+160   2pnv_3_2
+161   2q7c_3_2
+162   2rfr_3_0
+163   2ric_3_6
+164   2w6b_3_2
+165   3ci9_7_3
+166   3efg_3_2
+                                                                                                                                                register
+1                                                                                                                                 abcdefgabcdefgabcdefga
+2                                                                                                                                     abcdefgabcdefgabcd
+3                                                                                                                                        defgabcdefgabcd
+4                                                                                                                                        defgabcdefgabcd
+5                                                                                                                                        defgabcdefgabcd
+6                                                                                                                                        defgabcdefgabcd
+7                                                                                                                                        defgabcdefgabcd
+8                                                                                                                   abcdefgabcdefgabcdefgabcdefgabcdefga
+9                                                                                                                   abcdefgabcdefgabcdefgabcdefgabcdefga
+10                                                      defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+11                                                                                                                                defgabcdefgabcdefgabcd
+12                                                                                                                  abcdefgabcdefgabcdefgabcdefgabcdefga
+13                                                                                                                         defgabcdefgabcdefgabcdefgabcd
+14                                                                                                                                defgabcdefgabcdefgabcd
+15                                                                                                                             abcdefgabcdefgabcdefgabcd
+16                                                                                                                             abcdefgabcdefgabcdefgabcd
+17                                                                                                                     defgabcdefgabcdefgabcdefgabcdefga
+18                                                                                                                     defgabcdefgabcdefgabcdefgabcdefga
+19                                                                                                                                defgabcdefgabcdefgabcd
+20                                                                                                                         defgabcdefgabcdefgabcdefgabcd
+21                                                                                                                                       abcdefgabcdefga
+22                                                                                                                                       abcdefgabcdefga
+23                                                                                                                                       abcdefgabcdefga
+24                                                                                                                                       abcdefgabcdefga
+25                                                                                                                     defgabcdefgabcdefgabcdefgabcdefga
+26                                                                                                                                    abcdefgabcdefgabcd
+27                                                                                                                                    abcdefgabcdefgabcd
+28                                                                                                           abcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+29                                                                                                           abcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+30                                                                                                                      abcdefgabcdefgabcdefgabcdefgabcd
+31                                                                                                                                    abcdefgabcdefgabcd
+32                                                                                                                                   defgabcdefgabcdefga
+33                                                                                                                                defgabcdefgabcdefgabcd
+34                                                                                                                                       abcdefgabcdefga
+35                                                                                                                                       abcdefgabcdefga
+36                                                                                                                                abcdefgabcdefgabcdefga
+37                                                                                                        abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcd
+38                                                                                                                                defgabcdefgabcdefgabcd
+39                                                                                                                  abcdefgabcdefgabcdefgabcdefgabcdefga
+40                                                                                                                                    abcdefgabcdefgabcd
+41                                                                                                                                    abcdefgabcdefgabcd
+42                                                                                                                                       defgabcdefgabcd
+43                                                                                             abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+44                                                                                                                                       abcdefgabcdefga
+45                                                                                                                                defgabcdefgabcdefgabcd
+46                                                                                                                                    abcdefgabcdefgabcd
+47                                                                                                                     defgabcdefgabcdefgabcdefgabcdefga
+48                                                                                                                                       defgabcdefgabcd
+49                                                                                                                         defgabcdefgabcdefgabcdefgabcd
+50                                                                                                                         defgabcdefgabcdefgabcdefgabcd
+51                                                                                                                                       defgabcdefgabcd
+52                                                                                                                                       defgabcdefgabcd
+53                                                                                                                                       defgabcdefgabcd
+54                                                                                                       defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+55                                                                                      defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcd
+56                                                                                                                                       abcdefgabcdefga
+57                                                                                                                                       abcdefgabcdefga
+58                                                                                                                                       abcdefgabcdefga
+59                                                                                                                      abcdefgabcdefgabcdefgabcdefgabcd
+60                                                                                                                         defgabcdefgabcdefgabcdefgabcd
+61                                                                                                                         defgabcdefgabcdefgabcdefgabcd
+62                                                                                                                             abcdefgabcdefgabcdefgabcd
+63                                                                                                                                       abcdefgabcdefga
+64                                                                                                                         abcdefgabcdefgabcdefgabcdefga
+65                                                                                                                         abcdefgabcdefgabcdefgabcdefga
+66                                                                                                                                       defgabcdefgabcd
+67                                                                                                                                       defgabcdefgabcd
+68                                                                                                                                       abcdefgabcdefga
+69                                                                                                                                       abcdefgabcdefga
+70                                                                                                                         defgabcdefgabcdefgabcdefgabcd
+71                                                                                                                                defgabcdefgabcdefgabcd
+72                                                                                                                                abcdefgabcdefgabcdefga
+73  defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefdabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcd
+74                                                                                                                                       abcdefgabcdefga
+75                                                                                                                                       abcdefgabcdefga
+76                                                                                                                                abcdefgabcdefgabcdefga
+77                                                                                                                                abcdefgabcdefgabcdefga
+78                                                                                                                                       defgabcdefgabcd
+79                                                                                                                                       defgabcdefgabcd
+80                                                                                                                                defgabcdefgabcdefgabcd
+81                                            defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcd
+82                                                                                                                             abcdefgabcdefgabcdefgabcd
+83                                                                                                                         abcdefgabcdefgabcdefgabcdefga
+84                                                                                                                                abcdefgabcdefgabcdefga
+85                                                                                                                                defgabcdefgabcdefgabcd
+86                                                                                                                         abcdefgabcdefgabcdefgabcdefga
+87                                                                                                                                    abcdefgabcdefgabcd
+88                                                                                                                                    abcdefgabcdefgabcd
+89                                                                                                                             abcdefgabcdefgabcdefgabcd
+90                                                                                                                             abcdefgabcdefgabcdefgabcd
+91                                                                                                                                       abcdefgabcdefga
+92                                                                                                                                       abcdefgabcdefga
+93                                                                                                                                defgabcdefgabcdefgabcd
+94                                                                                                           abcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+95                                                                                                                                       abcdefgabcdefga
+96                                                                                                                                       abcdefgabcdefga
+97                                                                                                                                    abcdefgabcdefgabcd
+98                                                                                                                                    abcdefgabcdefgabcd
+99                                                                                                                  defgabcdefgabcdefgabcdefgabcdefgabcd
+100                                                                                                                                      abcdefgabcdefga
+101                                                                                                                                  defgabcdefgabcdefga
+102                                                                                                                        abcdefgabcdefgabcdefgabcdefga
+103                                                                                                                                      defgabcdefgabcd
+104                                                                                                                 abcdefgabcdefgabcdefgabcdefgabcdefga
+105                                                                                                                                      defgabcdefgabcd
+106                                                                                                                                      abcdefgabcdefga
+107                                                                                                                                      abcdefgabcdefga
+108                                                                                                                                      abcdefgabcdefga
+109                                                                                                                                      abcdefgabcdefga
+110                                                                                                                                      abcdefgabcdefga
+111                                                                                                                                      abcdefgabcdefga
+112                                                                                                abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcd
+113                                                                                                                            abcdefgabcdefgabcdefgabcd
+114                                                                                                                     abcdefgabcdefgabcdefgabcdefgabcd
+115                                                                                                                               abcdefgabcdefgabcdefga
+116                                                                                                                                  defgabcdefgabcdefga
+117                                                                                                       abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcd
+118                                                                                                                            abcdefgabcdefgabcdefgabcd
+119                                                                              abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+120                                                                                                                            abcdefgabcdefgabcdefgabcd
+121                                                                                                                               abcdefgabcdefgabcdefga
+122                                                                                                                                      abcdefgabcdefga
+123                                                                                                                                      abcdefgabcdefga
+124                                                                                                                                      defgabcdefgabcd
+125                                                                                                                            abcdefgabcdefgabcdefgabcd
+126                                                                                                                 defgabcdefgabcdefgabcdefgabcdefgabcd
+127                                                                                                                               defgabcdefgabcdefgabcd
+128                                                                                                                               defgabcdefgabcdefgabcd
+129                                                                                                                           defgabcdefgabcdefgabcdefga
+130                                                                                                                                      abcdefgabcdefga
+131                                                                                                                                      abcdefgabcdefga
+132                                                                                                                               abcdefgabcdefgabcdefga
+133                                                                                                                               abcdefgabcdefgabcdefga
+134                                                                                                                 defgabcdefgabcdefgabcdefgabcdefgabcd
+135                                                                                                                           defgabcdefgabcdefgabcdefga
+136                                                                                                                        defgabcdefgabcdefgabcdefgabcd
+137                                                                                                                                      defgabcdefgabcd
+138                                                                                                                            abcdefgabcdefgabcdefgabcd
+139                                                                                                                     abcdefgabcdefgabcdefgabcdefgabcd
+140                                                                                                                               abcdefgabcdefgabcdefga
+141                                                                                                      defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+142                                                                                                                             efgabcdefgabcdefgabcdefg
+143                                                                                                                        abcdefgabcdefgabcdefgabcdefga
+144                                                                                                                        abcdefgabcdefgabcdefgabcdefga
+145                                                                                                                     abcdefgabcdefgabcdefgabcdefgabcd
+146                                                                                                                                  defgabcdefgabcdefga
+147                                                                                                                                      defgabcdefgabcd
+148                                                                                            abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+149                                                                                                                               defgabcdefgabcdefgabcd
+150                                                                                                                           defgabcdefgabcdefgabcdefga
+151                                                                                                   abcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+152                                                                                                  defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefgabcde
+153                                                                                                                                      abcdefgabcdefga
+154                                                                                                                                   abcdefgabcdefgabcd
+155                                                                                                                                  abcdefgabcdefgabcde
+156                                                                                                                                      abcdefgabcdefga
+157                                                                                                                     abcdefgabcdefgabcdefgabcdefgabcd
+158                                                                                                                       defgabcdefgabcdefgabcdefgabcde
+159                                                                                                                        defgabcdefgabcdefgabcdefgabcd
+160                                                                                                                    defgabcdefgabcdefgabcdefgabcdefga
+161                                                                                                          abcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+162                                                                                                                                      abcdefgabcdefga
+163                                                                                                                           gabcdefgabcdefgabcdefgabcd
+164                                                                                                      defgabcdefgabcdefgabcdefgabcdefgabcdefgabcdefga
+165                                                                                                                               abcdefgabcdefgabcdefga
+166                                                                                                          defgabcdefgabcdefgabcdefgabcdefgabcdefgabcd
+                                                                                                                                                sequence
+1                                                                                                                                 EQKLISEEDLLRKRREQLKHKL
+2                                                                                                                                     LQQLQKDLNDKTEENNRL
+3                                                                                                                                        AYAAQVPYKLAYDAK
+4                                                                                                                                        ALLEAIRLRNKVKAL
+5                                                                                                                                        MVEKCWKLMDKVVRL
+6                                                                                                                                        MENLMKKTKQTISLF
+7                                                                                                                                        ATQQTAAYKTLVSIL
+8                                                                                                                   QEALTGECKELEKKNEALKERADSLAKEIQYLKDLI
+9                                                                                                                   NLETQHKVLELTAENERLQKKVEQLSRELSTLRNLF
+10                                                      MANRLAGLENSLESEKVSREQLIKQKDQLNSLLASLESEGAEREKRLRELEAKLDETLKNLELEKLARMELEARLAKTEKDRAILELKLAEAIDEK
+11                                                                                                                                LMRLSAQMARRLQVTSEKVGNL
+12                                                                                                                  YDQLLKQVEALKMENSNLRQELEDNSNHLTKLETEA
+13                                                                                                                         KKEYVKSLENRVAVLENQNKTLIEELKAL
+14                                                                                                                                LKEQIRELVEKNSQLERENTLL
+15                                                                                                                             VAQLEKEVAQAEAENYQLEQEVAQL
+16                                                                                                                             VQALKKRVQALKARNYAAKQKVQAL
+17                                                                                                                     RRELTDTLQAETDQLEDEKSALQTEIANLLKEK
+18                                                                                                                     KLERIARLEEKVKTLKAQNSELASTANMLREQV
+19                                                                                                                                AWGLIAILGRALTSCMRTIEDL
+20                                                                                                                         KEDHLKALETQVVTLKELHSSTTLENDQL
+21                                                                                                                                       LDQLRQEAEQLKNQI
+22                                                                                                                                       IAQARKLVEQLKMEA
+23                                                                                                                                       TAALQDALIYVTKGL
+24                                                                                                                                       DDILAERVRMTCAAK
+25                                                                                                                     SREEADTLRLKVEELEGERSRLEEEKRMLEAQL
+26                                                                                                                                    KTFEIEIINELSASVYNR
+27                                                                                                                                    LEELQAVHEYWRSMNRYS
+28                                                                                                           EDQLREKAKELWQTIYNLEAEKFDLQEKFKQQKYEINVLRNRI
+29                                                                                                           FAELQDLARQLHARVDKVDEERYDIEAKVTKNITEIADLTQKI
+30                                                                                                                      IEKLQTKVLELQRKLDNTTAAVQELGRENQSL
+31                                                                                                                                    IPQQQAHIAELQVYNNKL
+32                                                                                                                                   LESVIRNLISDYDKLFLMF
+33                                                                                                                                LEEMLEKLEVVVNERREEESAA
+34                                                                                                                                       LQGIEFWSNVCDEEM
+35                                                                                                                                       PCKAAGVCLMLLATC
+36                                                                                                                                VLTSTLAFQKEQKLKCECQALL
+37                                                                                                        VVHLRQRTEELLRCNEQQAAELETCKEQLFQSNMERKELHNTVMDL
+38                                                                                                                                LEDSDRKAVHQIDQLQREQRHL
+39                                                                                                                  YGSFVSEYNDLTKSHEKLAAEKDDLIVSNSKLFRQI
+40                                                                                                                                    HDQAKDFLVKLYEQXVVR
+41                                                                                                                                    LTHFFYVFQTLQKQVSYS
+42                                                                                                                                       MHLMIGILAALEMRH
+43                                                                                             LDEKEKQLAVANEIIRSLSDEVMRNEIRITSLQGDLTFTKKCLENARSQISEKDAKI
+44                                                                                                                                       VFFLEDRLAVMMRVL
+45                                                                                                                                ISEEMAKLKQKTEQLQDRIAGQ
+46                                                                                                                                    ELLKDNELKKLRERVKSL
+47                                                                                                                     ATEYIQYMRRKVHTLQQDIDDLKRQNALLEQQV
+48                                                                                                                                       RLTLIDILAHLCEAY
+49                                                                                                                         LEKKAEDLSSLNGQLQSEVTLLRNEVAQL
+50                                                                                                                         LQTELDVSEQVQRDFVKLSQTLQVQLERI
+51                                                                                                                                       MDDEESWIKEKKLLV
+52                                                                                                                                       RLAQFVDHWKELKQL
+53                                                                                                                                       LKLKLKKEKFKTLFT
+54                                                                                                       WKEVAEKRRKALYEALKENEKLHKEIEQKDNEIARLKKENKELAEVA
+55                                                                                      STSDVANLANEKEELNNKLKEAQEQLSRLKDEEISAAAIKAQFEKQLLTERTLKTQAVNKLAEI
+56                                                                                                                                       ESCLEAYTGIVQGLK
+57                                                                                                                                       VVACAAGLIGDLCTA
+58                                                                                                                                       FTLTYGALVTQLCKD
+59                                                                                                                      AAELMQQVNVLKLTVEDLEKERDFYFGKLRNI
+60                                                                                                                         SQLEIQQXSNTLNLLTSARSDXQSLQYRT
+61                                                                                                                         QTRNKELLDKKIRSEIEAIKKIIAEFDVV
+62                                                                                                                             FEQILQERNELKAKVFLLKEELAYF
+63                                                                                                                                       IMLLEEQLEYKRGEI
+64                                                                                                                         CQNLEVERQRRLERIKQKQSQLQELILQQ
+65                                                                                                                         LEGLTQDLRQLQESEQQLDHLMNICTTQL
+66                                                                                                                                       ILASTALVMLMVPGV
+67                                                                                                                                       LFMMYQMMFAAVTIA
+68                                                                                                                                       RDEIFGDLKQRVAAL
+69                                                                                                                                       LTRAFLLTNVVELAE
+70                                                                                                                         FKQLLQHYREVAAAKSSENDRLRLLLKQM
+71                                                                                                                                LKDLAQHLSQGLAEAYRRIERL
+72                                                                                                                                RDELXEAIQKQEEINFRLQDYI
+73  LEDKVEELLSKNYHLENEVARLKKLLERAEERAELSEGKSAELEEELKTVTNNLKSLEAQAEKYSQKEDKYEEEIKVLSDKLKEAETRAEFAERSVTKLEKSIDDLEDELYAQKLKYKAISEEMKQLEDKVEELLSKNYHLENEVARL
+74                                                                                                                                       VAEYSGLICLMETML
+75                                                                                                                                       IIPLYEKAIELKKKL
+76                                                                                                                                KEQLLDLAHRIRDENTRLAEQL
+77                                                                                                                                VETLKDVIYHAKELQLELKKKK
+78                                                                                                                                       FIHIVRVRDVYRDGL
+79                                                                                                                                       LLDELERSXEELVFE
+80                                                                                                                                SLNMVKVLGDLLKNSLTIINGL
+81                                            MKEEFTRLKEALEKSEARRKELEEKMVSLLQEKNDLQLQVQAEQDNLADAEERCDQLIKNKIQLEAKVKEMNERLEDEEEMNAELTAKKRKLEDECSELKRDIDDL
+82                                                                                                                             TSFCRYFLKALAKELGYAERRTVTL
+83                                                                                                                         KQELIKEYLELEKCLSRMEDENNRLRLES
+84                                                                                                                                VRELELELDRLRAENLQLLTEN
+85                                                                                                                                RQTRLEGAEINKSLLALKECIR
+86                                                                                                                         YEEVLQELVKHKELLRRKDTHIRELEDYI
+87                                                                                                                                    YEEXVKEVERLKLENKTL
+88                                                                                                                                    LKRTVTELDSVTARLREV
+89                                                                                                                             LRQLDMELVSVKRQIQNIKQTNSAL
+90                                                                                                                             KHVKDEQIEHWKKIVKTQEELKELL
+91                                                                                                                                       TFDLLLAAQEVSVKA
+92                                                                                                                                       LDTLAQSQQFSQKAI
+93                                                                                                                                NAARMFTLARENERLSLEMRLL
+94                                                                                                           LESLKQELATSQRELQVLQGSLETSAQSEANWAAEFAELEKER
+95                                                                                                                                       LFGLTLLLVITAVIS
+96                                                                                                                                       CTMLVGATYMLLVDN
+97                                                                                                                                    NLKLFIEVCELHGQTAIQ
+98                                                                                                                                    HDLLRVTKQALQDVIESN
+99                                                                                                                  MDRVVKEMRRQLEMIDKLTTREIEQVELLKRIYDKL
+100                                                                                                                                      QSHLEEQLNKSLKTI
+101                                                                                                                                  RDDEVKRLREDIAKENELR
+102                                                                                                                        KYAIEILNKRLTEQLREKDTLLDTLTLQL
+103                                                                                                                                      EYINNIHLTHSLEEC
+104                                                                                                                 LSELENRVKDLENKNSELEERLSTLQNENQMLRHIL
+105                                                                                                                                      MADRLRKTTRKVGDL
+106                                                                                                                                      VQSALHQLKVAVDTS
+107                                                                                                                                      FEWLLEIVAHFYHHR
+108                                                                                                                                      LASLKSEAESLKGKL
+109                                                                                                                                      VTAVRKEIMYYQQAL
+110                                                                                                                                      IEKDLELLEKNLMEM
+111                                                                                                                                      FGCITYAHGLLDSLR
+112                                                                                                NKELNFKLREKQNEIFELKKIAETLRSKLEKYVDITKKLEDQNLNLQIKISDL
+113                                                                                                                            LQEARELLLQASRLLMMKDNVIRSL
+114                                                                                                                     IRPLXGXSLALQCQVRELATLLHXKDLEIQDY
+115                                                                                                                               FVASQESQKALQAQLDLWQAEH
+116                                                                                                                                  LAVKLTRMEKTLKAYELYI
+117                                                                                                       YLELKKALATSEAKVQQLMKVNSSLSDELRKLQREIHKLQAENLQL
+118                                                                                                                            HEALHRVARNLARQMRRVQAYEAHL
+119                                                                              MKEQLKQMDKMKEDLAKTERIKKELEEQNVTLLEQKNDLFGSMKQLEDKVEELLSKNYHLENEVARLKKLV
+120                                                                                                                            LRETEATNAILMEQIKLLKSEIRRL
+121                                                                                                                               SYIALQQRDEAYRALRESQQQL
+122                                                                                                                                      LQRCLEENQELRDAI
+123                                                                                                                                      LTEVESRLERLEQLF
+124                                                                                                                                      IQKFATHAARRLQAL
+125                                                                                                                            APVANYTNELXATRFSDVXWLIEQI
+126                                                                                                                 MEIQLKDALEKNQQWLVYDQQREVYVKGLLAKIFEL
+127                                                                                                                               IFEIFKNYLTKVAYYARQVAEM
+128                                                                                                                               LWNLAEXLARRVTFLNDELIAF
+129                                                                                                                           VERQVRLLRERNIEXRHRLSQLXDVA
+130                                                                                                                                      LKNLVSVINNKLTRL
+131                                                                                                                                      STVLTSFEAVCDFML
+132                                                                                                                               THGKIVKSEYWLAKMIDLFPVA
+133                                                                                                                               RESLMTSISKSKEAVSLLNDAI
+134                                                                                                                 LTNSIKANETNIASVTQEVNTAKGNISSLQGDVQAL
+135                                                                                                                           IEYEQAAIKEEIAAIKDKIAAIKEYI
+136                                                                                                                        IEVKLANMEAEINTLKSKLELTNKLHAFS
+137                                                                                                                                      KDLAMADLEQKVLEM
+138                                                                                                                            VEALEKKVAALESKVQALEKKVEAL
+139                                                                                                                     TGLLESQLSRHDQMLSVHDIRLADMDLRFQVL
+140                                                                                                                               LDTLSQEVALLKEQQALQTVCL
+141                                                                                                      SNAKIDQLSSDVQTLNAKVDQASNDANAARSDAQAAKDDAARANQRL
+142                                                                                                                             QAQVEEVVDIMRVNVDKVLERDSK
+143                                                                                                                        ISQLTQAIVKNHKNLLKIAQYAAQNRRGL
+144                                                                                                                        LREVEKSISNLEKSLTSLSEVVLQNRRGL
+145                                                                                                                     TVSVLRNVEVLDKNIGILKTSLETANSDIKTI
+146                                                                                                                                  LQTELYEIKHQILQTMGVL
+147                                                                                                                                      LERQLGELREEFNAL
+148                                                                                            LRELQEALEEEVLTRQSLSREMEAIRTDNQNFASQLREAEARNRDLEAHVRQLQERM
+149                                                                                                                               LSSNFGAISSVLNDILSRLDKV
+150                                                                                                                           LEEDVRNLNAIVQKLQERLDRLEETV
+151                                                                                                   PLDISQNLAAVNKSLSDALQHLAQSDTYLSAIEDKIEEILSKIYHIENEI
+152                                                                                                  VMESFAVQNQNIDAQGEQIKELQVEQKAQGKTLQLILEALQGINKRLDNLE
+153                                                                                                                                      IDYLAKKLHDIEEEY
+154                                                                                                                                   IIRLDRIIEKLRTKLDEA
+155                                                                                                                                  TNKITTSISHVESLLDDRL
+156                                                                                                                                      WCELQNHELTLWNEA
+157                                                                                                                     VDGNSTAISNLKSDISSNGLAITDLQDRVKSL
+158                                                                                                                       IPTNLRVLRSILENLRSKIQKLESDVSAQM
+159                                                                                                                        HDSSIRYLQEIYNSNNQKIVNLKEKVAQL
+160                                                                                                                    MYDMISDLNERSEDFEKRIVTLETKLETLIGSI
+161                                                                                                          MKQIEDKIEEIESKQKKIENEIARIKKLLQLTVWGIKQLQARI
+162                                                                                                                                      LTNLAARLRLLEDRE
+163                                                                                                                           DVASLRQQVEALQGQVQHLQAAFSQY
+164                                                                                                      LVDTVYALKDEVQELRQDNKKXKKSLEEEQRARKDLEKLVRKVLKNX
+165                                                                                                                               SDQIIGRIDDMSSRIDDLEKNI
+166                                                                                                          LEARLVELETRLSFQEQALTELSEALADARLTGARNAELIRHL
+      type
+1    DIMER
+2    DIMER
+3    DIMER
+4    DIMER
+5    DIMER
+6    DIMER
+7    DIMER
+8    DIMER
+9    DIMER
+10   DIMER
+11   DIMER
+12   DIMER
+13   DIMER
+14   DIMER
+15   DIMER
+16   DIMER
+17   DIMER
+18   DIMER
+19   DIMER
+20   DIMER
+21   DIMER
+22   DIMER
+23   DIMER
+24   DIMER
+25   DIMER
+26   DIMER
+27   DIMER
+28   DIMER
+29   DIMER
+30   DIMER
+31   DIMER
+32   DIMER
+33   DIMER
+34   DIMER
+35   DIMER
+36   DIMER
+37   DIMER
+38   DIMER
+39   DIMER
+40   DIMER
+41   DIMER
+42   DIMER
+43   DIMER
+44   DIMER
+45   DIMER
+46   DIMER
+47   DIMER
+48   DIMER
+49   DIMER
+50   DIMER
+51   DIMER
+52   DIMER
+53   DIMER
+54   DIMER
+55   DIMER
+56   DIMER
+57   DIMER
+58   DIMER
+59   DIMER
+60   DIMER
+61   DIMER
+62   DIMER
+63   DIMER
+64   DIMER
+65   DIMER
+66   DIMER
+67   DIMER
+68   DIMER
+69   DIMER
+70   DIMER
+71   DIMER
+72   DIMER
+73   DIMER
+74   DIMER
+75   DIMER
+76   DIMER
+77   DIMER
+78   DIMER
+79   DIMER
+80   DIMER
+81   DIMER
+82   DIMER
+83   DIMER
+84   DIMER
+85   DIMER
+86   DIMER
+87   DIMER
+88   DIMER
+89   DIMER
+90   DIMER
+91   DIMER
+92   DIMER
+93   DIMER
+94   DIMER
+95   DIMER
+96   DIMER
+97   DIMER
+98   DIMER
+99   DIMER
+100  DIMER
+101  DIMER
+102  DIMER
+103  DIMER
+104  DIMER
+105  DIMER
+106  DIMER
+107  DIMER
+108  DIMER
+109  DIMER
+110  DIMER
+111  DIMER
+112  DIMER
+113  DIMER
+114  DIMER
+115  DIMER
+116  DIMER
+117  DIMER
+118  DIMER
+119  DIMER
+120  DIMER
+121  DIMER
+122  DIMER
+123  DIMER
+124  DIMER
+125  DIMER
+126  DIMER
+127  DIMER
+128  DIMER
+129  DIMER
+130  DIMER
+131  DIMER
+132  DIMER
+133  DIMER
+134 TRIMER
+135 TRIMER
+136 TRIMER
+137 TRIMER
+138 TRIMER
+139 TRIMER
+140 TRIMER
+141 TRIMER
+142 TRIMER
+143 TRIMER
+144 TRIMER
+145 TRIMER
+146 TRIMER
+147 TRIMER
+148 TRIMER
+149 TRIMER
+150 TRIMER
+151 TRIMER
+152 TRIMER
+153 TRIMER
+154 TRIMER
+155 TRIMER
+156 TRIMER
+157 TRIMER
+158 TRIMER
+159 TRIMER
+160 TRIMER
+161 TRIMER
+162 TRIMER
+163 TRIMER
+164 TRIMER
+165 TRIMER
+166 TRIMER
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.715 0.018 2.771 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

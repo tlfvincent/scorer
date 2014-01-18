@@ -1,0 +1,8 @@
+help(data=index)
+pssm<-array(c(rep(0,(21*7))),c(2,21,7), dimnames=list(,,letters[1:7]))
+amino = c("A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y","X")
+pssm<-array(c(rep(0,(21*7))),c(2,21,7), dimnames=list(c("DIMER", "TRIMER"),amino,letters[1:7]))
+pssm
+load("/Users/ThomasVincent/Documents/GitHub/scorer/data/TrainingData.RData")
+training
+class(training)
